@@ -1,0 +1,215 @@
+<html lang="EN">
+
+<head>
+    <meta charset="utf-8">
+    <title>Jimmy 🚀</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="https://juicedelivery.github.io/jimmy/" />
+    <link rel="manifest" href="/jimmy/manifest.json">
+    <link rel="apple-touch-icon" href="./images/icons/apple-icon.png">
+    <link rel="icon" type="image/x-icon" href="./images/icons/favicon.ico">
+    <meta name="theme-color" content="#fff">
+    <style>
+        .hugh {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #countdown {
+            z-index: 2;
+        }
+
+        p {
+            font-family: Helvetica, Arial, Sans-Serif;
+            text-align: center;
+            font-size: 30pt;
+            color: white;
+            padding: 5px 5px;
+            margin: 5px 5px;
+
+        }
+
+        .jimmy {
+            display: block;
+            position: absolute;
+            z-index: 10;
+            max-width: 70%;
+            max-height: 50vh;
+            height: auto;
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        .jimmy-rocket {
+            cursor: pointer;
+            transform: scale(30);
+            transform-origin: 60% 75%;
+            transition: transform 3s ease-out;
+            outline: none; /* optional: remove the focus outline */
+        }
+
+        #circle {
+            width: 5000px;
+            height: 5000px;
+            border-radius: 50%;
+            position: fixed;
+            z-index: 1;
+            top: calc(50% - 2500px);
+            left: calc(50% - 2500px);
+            background: conic-gradient(
+                    #3f51b5 0deg,
+                    #3f51b5 15deg,
+                    #2196f3 15deg,
+                    #2196f3 30deg,
+                    #3f51b5 30deg,
+                    #3f51b5 45deg,
+                    #2196f3 45deg,
+                    #2196f3 60deg,
+                    #3f51b5 60deg,
+                    #3f51b5 75deg,
+                    #2196f3 75deg,
+                    #2196f3 90deg,
+                    #3f51b5 90deg,
+                    #3f51b5 105deg,
+                    #2196f3 105deg,
+                    #2196f3 120deg,
+                    #3f51b5 120deg,
+                    #3f51b5 135deg,
+                    #2196f3 135deg,
+                    #2196f3 150deg,
+                    #3f51b5 150deg,
+                    #3f51b5 165deg,
+                    #2196f3 165deg,
+                    #2196f3 180deg,
+                    #3f51b5 180deg,
+                    #3f51b5 195deg,
+                    #2196f3 195deg,
+                    #2196f3 210deg,
+                    #3f51b5 210deg,
+                    #3f51b5 225deg,
+                    #2196f3 225deg,
+                    #2196f3 240deg,
+                    #3f51b5 240deg,
+                    #3f51b5 255deg,
+                    #2196f3 255deg,
+                    #2196f3 270deg,
+                    #3f51b5 270deg,
+                    #3f51b5 285deg,
+                    #2196f3 285deg,
+                    #2196f3 300deg,
+                    #3f51b5 300deg,
+                    #3f51b5 315deg,
+                    #2196f3 315deg,
+                    #2196f3 330deg,
+                    #3f51b5 330deg,
+                    #3f51b5 345deg,
+                    #2196f3 345deg,
+                    #2196f3 360deg
+            );
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes twinkle {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(10deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="hugh">
+    <p id="countdown"></p>
+    <img onclick="jimmyFlight()" class="jimmy" tabindex="1" src="images/jimmy.png" alt="jimmy"/>
+    <div id="circle"></div>
+</div>
+
+<audio id="jimmy">
+    <source src="jimmy.mp3" type="audio/mpeg">
+    Your browser does not support jimmy.
+</audio>
+
+<script>
+    if (navigator.serviceWorker) {
+        navigator.serviceWorker.register (
+            '/jimmy/sw.js',
+            {scope: '/jimmy/'}
+        )
+    }
+    const jimmyFlightTime = 10 * 60 * 1000
+    const jimmyFlewAwayAtKey = "jimmyFlewAwayAt"
+    const jimmy = document.querySelector(".jimmy")
+
+    function jimmyReturns() {
+        return Number(localStorage.getItem(jimmyFlewAwayAtKey)) + jimmyFlightTime
+    }
+
+    function hideJimmy() {
+        jimmy.setAttribute("style", "display:none;")
+    }
+
+    function returnJimmy() {
+        jimmy.classList.remove("jimmy-rocket")
+        jimmy.removeAttribute("style")
+    }
+
+    if (Date.now() < jimmyReturns()) {
+        hideJimmy()
+    }
+
+    function jimmyFlight() {
+        const jimmyPlayingMusic = document.getElementById("jimmy");
+        jimmyPlayingMusic.play();
+
+        localStorage.setItem(jimmyFlewAwayAtKey, Date.now())
+        jimmy.classList.add("jimmy-rocket")
+        setTimeout(hideJimmy, 2500)
+    }
+
+
+    // Update the countdown every second
+    const x = setInterval(() => {
+        // Get the current time
+        const now = new Date().getTime();
+
+        // Calculate the time remaining
+        const timeRemaining = jimmyReturns() - now;
+
+        // Calculate the days, hours, minutes, and seconds remaining
+        // const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        // Display the countdown in the element with id="countdown"
+        document.getElementById("countdown").innerHTML = "🚀 " + minutes + "m " + seconds + "s";
+
+        if (timeRemaining < 0) {
+            returnJimmy();
+            document.getElementById("countdown").innerHTML = "";
+        }
+    }, 1000);
+
+</script>
+
+</body>
+</html>
